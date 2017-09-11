@@ -1,0 +1,37 @@
+/*
+ * etsy connector
+ */
+
+// Apply the application plugin to add support for building an application
+apply plugin: 'application'
+
+// In this section you declare where to find the dependencies of your project
+repositories {
+    // Use jcenter for resolving your dependencies.
+    // You can declare any Maven/Ivy/file repository here.
+    jcenter()
+}
+
+dependencies {
+    compile group: 'org.glassfish', name: 'javax.json', version: '1.0.4'
+    compile 'org.glassfish.jersey.containers:jersey-container-servlet:2.14'
+
+    // This dependency is found on compile classpath of this component and consumers.
+    compile 'com.google.guava:guava:21.0'
+
+    // Use JUnit test framework
+    testCompile 'junit:junit:4.12'
+}
+
+tasks.withType(JavaCompile) {
+  options.compilerArgs << "-Xlint:unchecked" << "-Werror"
+}
+
+// Define the main class for the application
+mainClassName = "aucado.EtsyConnector"
+
+run {
+    if(project.hasProperty("appArgs")){
+        args Eval.me(appArgs)
+    }
+}
